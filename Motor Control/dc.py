@@ -23,21 +23,23 @@ def forward(val):
     GPIO.output(controller_b[1],0)
     GPIO.output(controller_b[2],1)
     GPIO.output(controller_b[3],0)
-
-    dc=(val-threshold/(1-threshold))*100
-    pwm_f[0].ChangeDutyCycle(dc)
-    pwm_f[1].ChangeDutyCycle(dc)
-    pwm_f[2].ChangeDutyCycle(dc)
-    pwm_f[3].ChangeDutyCycle(dc)
-    pwm_m[0].ChangeDutyCycle(dc)
-    pwm_m[1].ChangeDutyCycle(dc)
-    pwm_m[2].ChangeDutyCycle(dc)
-    pwm_m[3].ChangeDutyCycle(dc)
-    pwm_b[0].ChangeDutyCycle(dc)
-    pwm_b[1].ChangeDutyCycle(dc)
-    pwm_b[2].ChangeDutyCycle(dc)
-    pwm_b[3].ChangeDutyCycle(dc)
-
+    time_gap=1/steps*time_interval
+    step=1/steps
+    for i in range(steps):
+        dc=(val-threshold/(1-threshold))*100*step*i
+        pwm_f[0].ChangeDutyCycle(dc)
+        pwm_f[1].ChangeDutyCycle(dc)
+        pwm_f[2].ChangeDutyCycle(dc)
+        pwm_f[3].ChangeDutyCycle(dc)
+        pwm_m[0].ChangeDutyCycle(dc)
+        pwm_m[1].ChangeDutyCycle(dc)
+        pwm_m[2].ChangeDutyCycle(dc)
+        pwm_m[3].ChangeDutyCycle(dc)
+        pwm_b[0].ChangeDutyCycle(dc)
+        pwm_b[1].ChangeDutyCycle(dc)
+        pwm_b[2].ChangeDutyCycle(dc)
+        pwm_b[3].ChangeDutyCycle(dc)
+        time.sleep(time_gap)
 def backward(val):
     if val<threshold:
         return
@@ -54,19 +56,23 @@ def backward(val):
     GPIO.output(controller_b[2],0)
     GPIO.output(controller_b[3],1)
 
-    dc=(val-threshold/(1-threshold))*100
-    pwm_f[0].ChangeDutyCycle(dc)
-    pwm_f[1].ChangeDutyCycle(dc)
-    pwm_f[2].ChangeDutyCycle(dc)
-    pwm_f[3].ChangeDutyCycle(dc)
-    pwm_m[0].ChangeDutyCycle(dc)
-    pwm_m[1].ChangeDutyCycle(dc)
-    pwm_m[2].ChangeDutyCycle(dc)
-    pwm_m[3].ChangeDutyCycle(dc)
-    pwm_b[0].ChangeDutyCycle(dc)
-    pwm_b[1].ChangeDutyCycle(dc)
-    pwm_b[2].ChangeDutyCycle(dc)
-    pwm_b[3].ChangeDutyCycle(dc)
+    time_gap=1/steps*time_interval
+    step=1/steps
+    for i in range(steps):
+        dc=(val-threshold/(1-threshold))*100*step*i
+        pwm_f[0].ChangeDutyCycle(dc)
+        pwm_f[1].ChangeDutyCycle(dc)
+        pwm_f[2].ChangeDutyCycle(dc)
+        pwm_f[3].ChangeDutyCycle(dc)
+        pwm_m[0].ChangeDutyCycle(dc)
+        pwm_m[1].ChangeDutyCycle(dc)
+        pwm_m[2].ChangeDutyCycle(dc)
+        pwm_m[3].ChangeDutyCycle(dc)
+        pwm_b[0].ChangeDutyCycle(dc)
+        pwm_b[1].ChangeDutyCycle(dc)
+        pwm_b[2].ChangeDutyCycle(dc)
+        pwm_b[3].ChangeDutyCycle(dc)
+        time.sleep(time_gap)
 
 def right(val):
     if val<threshold:
@@ -151,6 +157,8 @@ if __name__ == '__main__':
     try:
         print('start')
         threshold=0.1
+        steps=100
+        time_interval=1
         controller_f=(3,5,8,10) #front 
         controller_m=(19,21,22,24) # mid
         controller_b=(29,31,36,38) #back
@@ -168,7 +176,6 @@ if __name__ == '__main__':
             stop()
             print('loop')
             forward(0.5)
-#            stop()
             time.sleep(1)
             stop()
             time.sleep(1)
